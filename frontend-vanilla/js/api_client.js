@@ -11,7 +11,7 @@ const getMockData = async () => {
         return JSON.parse(JSON.stringify(cachedData));
     } catch (e) {
         console.error("Could not load mock data:", e);
-        return { projects: [], contracts: [], contractRevisions: [], clients: [], quotations: [] };
+        return { projects: [], contracts: [], contractRevisions: [], clients: [], quotations: [], employees: [], projectParticipants: [] };
     }
 };
 
@@ -30,18 +30,8 @@ export const apiClient = {
         await simulateNetworkDelay(200);
         const data = await getMockData();
         const inProgressProjects = data.projects.filter(p => p.status === '진행중').length;
-        
-        // 향후 실제 데이터 기반으로 계산될 예정 (현재는 가상 데이터)
-        const expiringDocuments = 2; 
-        const dailyIssues = 3;
-        const pendingInvoices = 1;
-
-        return {
-            inProgressProjects,
-            expiringDocuments,
-            dailyIssues,
-            pendingInvoices
-        };
+        const expiringDocuments = 2; const dailyIssues = 3; const pendingInvoices = 1;
+        return { inProgressProjects, expiringDocuments, dailyIssues, pendingInvoices };
     },
     
     // --- Project APIs ---
@@ -64,25 +54,67 @@ export const apiClient = {
             revisions: revisions.sort((a,b) => a.revisionNumber - b.revisionNumber)
         };
     },
-    createProject: async (projectData) => {
+    createProject: async (formData) => {
         await simulateNetworkDelay(400);
         const data = await getMockData();
-        const lastProject = data.projects.sort((a,b) => b.id - a.id)[0];
-        const newId = (lastProject ? lastProject.id : 0) + 1;
         
+        // 1. 새 프로젝트 객체 생성
+        const lastProject = data.projects.sort((a,b) => b.id - a.id)[0];
+        const newProjectId = (lastProject ? lastProject.id : 0) + 1;
         const year = new Date().getFullYear();
-        const lastProjectOfTheYear = data.projects.filter(p=>p.projectId.startsWith(`P${year}`)).length;
-        const newProjectId = `P${year}-${String(lastProjectOfTheYear + 1).padStart(3, '0')}`;
-
+        const projectOfTheYearCount = data.projects.filter(p=>p.projectId.startsWith(`P${year}`)).length;
+        
         const newProject = { 
-            id: newId,
-            projectId: newProjectId,
+            id: newProjectId,
+            projectId: `P${year}-${String(projectOfTheYearCount + 1).padStart(3, '0')}`,
+            clientId: parseInt(formData.clientId),
+            projectName: formData.projectName,
+            projectCategory: formData.projectCategory,
+            pmName: formData.pmName,
+            projectLocation: formData.projectLocation,
+            summary: formData.summary,
+            facilityType: formData.facilityType,
+            status: formData.status || '진행중',
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            status: '진행중',
-            ...projectData 
+            updatedAt: new Date().toISOString()
         };
         data.projects.push(newProject);
+
+        // 2. 새 계약 객체 생성
+        if (formData.contractDate) { // 계약일이 있는 경우에만 계약 생성
+            const lastContract = data.contracts.sort((a,b) => b.id - a.id)[0];
+            const newContractId = (lastContract ? lastContract.id : 100) + 1;
+            const newContract = {
+                id: newContractId,
+                projectId: newProject.id, // 방금 만든 프로젝트 ID 연결
+                contractId: formData.contractId,
+                contractType: '최초',
+                contractDate: formData.contractDate,
+                startDate: formData.startDate,
+                endDate: formData.endDate,
+                totalAmount: parseFloat(String(formData.totalAmount).replace(/,/g, '')) || 0,
+                supplyAmount: parseFloat(String(formData.supplyAmount).replace(/,/g, '')) || 0,
+                vatAmount: parseFloat(String(formData.vatAmount).replace(/,/g, '')) || 0,
+                totalEquityAmount: parseFloat(String(formData.totalEquityAmount).replace(/,/g, '')) || 0,
+                equityRatio: parseFloat(formData.equityRatio) || 0,
+                remarks: formData.remarks
+            };
+            data.contracts.push(newContract);
+        }
+
+        // 3. 참여 기술인 정보 저장 (formData에 participants가 배열로 넘어온다고 가정)
+        if (formData.participants && formData.participants.length > 0) {
+            formData.participants.forEach(p => {
+                const lastParticipant = data.projectParticipants.sort((a,b) => b.participantId - a.id)[0];
+                const newParticipantId = (lastParticipant ? lastParticipant.participantId : 0) + 1;
+                data.projectParticipants.push({
+                    participantId: newParticipantId,
+                    projectId: newProject.id,
+                    ...p
+                });
+            });
+        }
+
         persistData(data);
         return newProject;
     },
@@ -96,12 +128,11 @@ export const apiClient = {
         persistData(data);
         return data.projects[projectIndex];
     },
-    deleteProject: async (id) => {
-        await simulateNetworkDelay(400);
-        const data = await getMockData();
-        data.projects = data.projects.filter(p => p.id !== parseInt(id));
-        persistData(data);
-        return { success: true };
+
+    // --- Employee & Participant APIs ---
+    getEmployees: async () => {
+        await simulateNetworkDelay();
+        return (await getMockData()).employees;
     },
 
     // --- Client APIs ---

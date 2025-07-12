@@ -1,7 +1,5 @@
 // =================================================================================
 // 전역 UI 컨트롤러 (Global UI Controller)
-// 이 파일은 모든 페이지에 공통으로 적용되는 UI 로직을 관리합니다.
-// (사이드바, 테마, 모달 등)
 // =================================================================================
 
 // --- Modal Helper ---
@@ -46,14 +44,13 @@ export const Modal = {
     }
 };
 
-
 // --- 페이지 로드 시 공통 UI 초기화 ---
 document.addEventListener('DOMContentLoaded', () => {
     
     // 1. Lucide 아이콘 렌더링
     lucide.createIcons();
     
-    // 2. 테마 초기화
+    // 2. 테마 초기화 및 제어
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (themeToggleBtn) {
         const sunIcon = document.getElementById('theme-toggle-sun');
@@ -81,16 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // 3. 사이드바 초기화
     const sidebar = document.getElementById('sidebar');
     if (sidebar) {
         const applyMouseEvents = () => {
-            if (window.innerWidth > 768) { // 데스크탑 뷰
+            if (window.innerWidth > 1024) { // 데스크탑 뷰에서만
                 sidebar.addEventListener('mouseenter', () => sidebar.classList.remove('collapsed'));
                 sidebar.addEventListener('mouseleave', () => sidebar.classList.add('collapsed'));
                 sidebar.classList.add('collapsed');
-            } else { // 모바일 뷰
+            } else { // 모바일/태블릿 뷰
                 sidebar.removeEventListener('mouseenter', () => sidebar.classList.remove('collapsed'));
                 sidebar.removeEventListener('mouseleave', () => sidebar.classList.add('collapsed'));
                 sidebar.classList.remove('collapsed');

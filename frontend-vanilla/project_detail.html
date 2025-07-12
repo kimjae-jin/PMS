@@ -4,27 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>프로젝트 상세 - Flowith ERP</title>
-    <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
     <link href="css/style.css" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- 이 페이지에서만 사용하는 추가 스타일 -->
+    <style>
+        .overview-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .info-block { background-color: var(--dark-surface-2); border-radius: 8px; padding: 1.25rem; }
+        .info-block h4 { color: var(--dark-text-subtle); margin-bottom: 0.5rem; font-weight: 500; }
+        .info-block p, .info-block strong { font-size: 1rem; font-weight: 700; }
+        .info-block-split { display: flex; justify-content: space-between; align-items: center; }
+        .detail-tabs { display: flex; border-bottom: 2px solid var(--dark-border); margin-bottom: 2rem; }
+        .tab-btn { background: none; border: none; color: var(--dark-text-subtle); padding: 0.75rem 1.5rem; cursor: pointer; font-size: 1rem; font-weight: 700; position: relative; }
+        .tab-btn.active { color: var(--color-primary); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background-color: var(--color-primary); }
+        .tab-content-container { background-color: var(--dark-surface-2); border-radius: 8px; padding: 1.5rem; }
+        .tab-content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .tab-content-header h3 { font-size: 1.25rem; margin: 0; font-weight: 700; }
+    </style>
 </head>
-<body>
+<body class="bg-gray-900 text-gray-100">
 
     <div class="flex h-screen font-sans">
         <!-- Sidebar -->
-        <aside class="w-64 flex-shrink-0 flex flex-col border-r sidebar">
-            <div class="h-16 flex items-center justify-center px-4 border-b border-inherit">
-                <i data-lucide="box" class="text-blue-500 h-8 w-8"></i>
-                <h1 class="text-2xl font-bold ml-2">ERP</h1>
-            </div>
-            <nav class="flex-grow p-3 space-y-1">
-                <a href="index.html" class="sidebar-link active"><i data-lucide="folder-kanban" class="w-5 h-5 mr-3"></i><span>프로젝트</span></a>
-                <a href="#" class="sidebar-link"><i data-lucide="users" class="w-5 h-5 mr-3"></i><span>기술인</span></a>
-                <a href="clients.html" class="sidebar-link"><i data-lucide="building-2" class="w-5 h-5 mr-3"></i><span>관계사</span></a>
-                <a href="#" class="sidebar-link"><i data-lucide="file-archive" class="w-5 h-5 mr-3"></i><span>문서/서식</span></a>
-                <a href="quotations.html" class="sidebar-link"><i data-lucide="calculator" class="w-5 h-5 mr-3"></i><span>견적관리</span></a>
-                <a href="#" class="sidebar-link"><i data-lucide="award" class="w-5 h-5 mr-3"></i><span>사업수행능력평가</span></a>
-                <a href="#" class="sidebar-link"><i data-lucide="gavel" class="w-5 h-5 mr-3"></i><span>입찰면허</span></a>
+        <aside id="sidebar" class="w-20 flex-shrink-0 flex flex-col border-r sidebar collapsed">
+            <a href="index.html" id="logo-container" class="h-16 flex items-center justify-start px-[1.375rem] border-b border-inherit flex-shrink-0">
+                <i data-lucide="box" class="text-blue-500 h-8 w-8 flex-shrink-0"></i>
+                <h1 class="text-2xl font-bold ml-3 sidebar-logo-text whitespace-nowrap">ERP</h1>
+            </a>
+            <nav class="flex-grow p-3 space-y-2">
+                <a href="index.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">종합 상황판</span></a>
+                <a href="projects.html" class="sidebar-link"><i data-lucide="folder-kanban" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">프로젝트</span></a>
+                <a href="clients.html" class="sidebar-link"><i data-lucide="building-2" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">관계사</span></a>
+                <a href="quotations.html" class="sidebar-link"><i data-lucide="calculator" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">견적관리</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="users" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">기술인</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="file-archive" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">문서/서식</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="receipt" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">청구/재무</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="award" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">사업수행능력평가</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="gavel" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">입찰면허</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="clipboard-check" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">주간회의</span></a>
             </nav>
         </aside>
 
@@ -32,79 +48,41 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="h-16 flex-shrink-0 flex items-center justify-between px-6 main-header">
                  <div class="flex items-center">
-                    <a href="index.html" class="mr-4 p-1 rounded-full text-gray-400 hover:bg-gray-700 hover:text-white"><i data-lucide="arrow-left"></i></a>
-                    <h2 id="project-name-header" class="text-xl font-semibold">프로젝트 상세 정보</h2>
+                    <a href="projects.html" class="mr-4 p-1 rounded-full text-gray-400 hover:bg-gray-600"><i data-lucide="arrow-left"></i></a>
+                    <div id="breadcrumbs">
+                        <a href="projects.html" class="subtle-text hover:text-white">프로젝트</a>
+                        <span class="mx-2 subtle-text">></span>
+                        <span id="breadcrumb-project-name" class="font-semibold"></span>
+                    </div>
                  </div>
                  <div class="flex items-center space-x-4">
-                    <button id="theme-toggle" class="p-2 rounded-full text-gray-400 hover:bg-gray-700 hover:text-white"><i id="theme-toggle-moon" data-lucide="moon" class="w-5 h-5"></i><i id="theme-toggle-sun" data-lucide="sun" class="w-5 h-5 hidden"></i></button>
-                    <span class="text-sm">관리자</span>
-                    <button class="p-2 rounded-full text-gray-400 hover:bg-gray-700 hover:text-white"><i data-lucide="bell" class="w-5 h-5"></i></button>
-                </div>
+                    <button id="theme-toggle" class="p-2 rounded-full text-gray-400 hover:bg-gray-600">
+                        <i id="theme-toggle-moon" data-lucide="moon" class="w-5 h-5"></i>
+                        <i id="theme-toggle-sun" data-lucide="sun" class="w-5 h-5 hidden"></i>
+                    </button>
+                 </div>
             </header>
             
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+                <div id="project-detail-content" class="hidden">
+                    <div class="overview-grid">
+                        <!-- 상단 요약 정보가 여기에 동적으로 채워집니다 -->
+                    </div>
+                    <div class="detail-tabs">
+                        <!-- 탭 버튼이 여기에 동적으로 채워집니다 -->
+                    </div>
+                    <div id="tab-content" class="mt-6">
+                        <!-- 선택된 탭의 컨텐츠가 여기에 동적으로 채워집니다 -->
+                    </div>
+                </div>
                 <div id="loading-indicator" class="text-center py-20 subtle-text">
                     <p>프로젝트 정보를 불러오는 중...</p>
-                </div>
-
-                <div id="project-content" class="hidden max-w-7xl mx-auto space-y-8">
-                    <!-- 프로젝트 기본 정보 -->
-                    <section>
-                        <form id="project-form" class="card">
-                            <div class="card-header"><h3>기본 정보</h3></div>
-                            <div class="card-body grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div><label>프로젝트 ID</label><input type="text" id="projectId" name="projectId" class="form-input" readonly></div>
-                                <div><label>구분</label><select id="projectCategory" name="projectCategory" class="form-select"></select></div>
-                                <div><label>상태</label><select id="status" name="status" class="form-select"></select></div>
-                                <div class="md:col-span-2"><label>계약명</label><input type="text" id="projectName" name="projectName" class="form-input"></div>
-                                <div><label>PM</label><input type="text" id="pmName" name="pmName" class="form-input"></div>
-                                <div class="md:col-span-2"><label>과업위치</label><input type="text" id="projectLocation" name="projectLocation" class="form-input"></div>
-                                <div><label>시설물 종류</label><input type="text" id="facilityType" name="facilityType" class="form-input"></div>
-                                <div class="md:col-span-3"><label>요약 개요</label><input type="text" id="summary" name="summary" class="form-input"></div>
-                            </div>
-                        </form>
-                    </section>
-
-                    <!-- 현재 계약 정보 -->
-                    <section>
-                        <form id="contract-form" class="card">
-                            <div class="card-header"><h3>현재 계약 정보</h3></div>
-                            <div class="card-body grid grid-cols-1 md:grid-cols-4 gap-6">
-                                <div><label>계약일</label><input type="date" id="contractDate" name="contractDate" class="form-input"></div>
-                                <div><label>착수일</label><input type="date" id="startDate" name="startDate" class="form-input"></div>
-                                <div><label>종료예정일</label><input type="date" id="endDate" name="endDate" class="form-input"></div>
-                                <div><label>계약서 파일</label><button type="button" class="form-input text-left truncate">파일 보기/첨부</button></div>
-
-                                <div><label>총 계약금액</label><input type="text" id="totalAmount" name="totalAmount" class="form-input text-right"></div>
-                                <div><label>총 지분금액</label><input type="text" id="totalEquityAmount" name="totalEquityAmount" class="form-input text-right"></div>
-                                <div><label>지분 공급가액</label><input type="text" id="supplyAmount" name="supplyAmount" class="form-input text-right"></div>
-                                <div><label>지분 부가세</label><input type="text" id="vatAmount" name="vatAmount" class="form-input text-right"></div>
-                                <div class="md:col-span-4"><label>비고</label><input type="text" id="remarks" name="remarks" class="form-input"></div>
-                            </div>
-                        </form>
-                    </section>
-                    
-                    <!-- 계약 변경 이력 -->
-                    <section>
-                        <div class="card">
-                            <div class="card-header justify-between">
-                                <h3>계약 변경 이력</h3>
-                                <button class="btn-primary btn-sm text-xs">변경 이력 추가</button>
-                            </div>
-                            <div id="revisions-list" class="p-2">
-                                <!-- JS로 렌더링될 영역 -->
-                            </div>
-                        </div>
-                    </section>
                 </div>
             </main>
         </div>
     </div>
     
-    <script src="js/theme.js"></script>
+    <script src="js/app.js" type="module"></script>
     <script src="js/project_detail.js" type="module"></script>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 </html>
