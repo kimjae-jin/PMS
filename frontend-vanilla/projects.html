@@ -31,16 +31,16 @@
                 <h1 class="text-2xl font-bold ml-3 sidebar-logo-text whitespace-nowrap">ERP</h1>
             </a>
             <nav class="flex-grow p-3 space-y-2">
-                <a href="index.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">종합 상황판</span></a>
-                <a href="projects.html" class="sidebar-link"><i data-lucide="folder-kanban" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">프로젝트</span></a>
-                <a href="clients.html" class="sidebar-link"><i data-lucide="building-2" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">관계사</span></a>
-                <a href="quotations.html" class="sidebar-link"><i data-lucide="calculator" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">견적관리</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="users" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">기술인</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="file-archive" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">문서/서식</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="receipt" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">청구/재무</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="award" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">사업수행능력평가</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="gavel" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">입찰면허</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="clipboard-check" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text">주간회의</span></a>
+                <a href="index.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">종합 상황판</span></a>
+                <a href="projects.html" class="sidebar-link"><i data-lucide="folder-kanban" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">프로젝트</span></a>
+                <a href="clients.html" class="sidebar-link"><i data-lucide="building-2" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">관계사</span></a>
+                <a href="quotations.html" class="sidebar-link"><i data-lucide="calculator" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">견적관리</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="users" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">기술인</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="file-archive" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">문서/서식</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="receipt" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">청구/재무</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="award" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">사업수행능력평가</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="gavel" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">입찰면허</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="clipboard-check" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">주간회의</span></a>
             </nav>
         </aside>
 
@@ -51,10 +51,10 @@
                     <h2 class="text-xl font-semibold">프로젝트 목록</h2>
                  </div>
                  <div class="flex items-center space-x-4">
-                    <a href="project_form.html" class="btn-primary inline-flex items-center justify-center space-x-2">
+                    <button class="btn-primary inline-flex items-center justify-center space-x-2">
                         <i data-lucide="plus" class="w-5 h-5"></i>
                         <span>신규 프로젝트</span>
-                    </a>
+                    </button>
                     <button id="theme-toggle" class="p-2 rounded-full text-gray-400 hover:bg-gray-600">
                         <i id="theme-toggle-moon" data-lucide="moon" class="w-5 h-5"></i>
                         <i id="theme-toggle-sun" data-lucide="sun" class="w-5 h-5 hidden"></i>
@@ -64,35 +64,26 @@
             
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
                 <div class="card p-4 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="relative">
-                            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 subtle-text"></i>
-                            <input type="text" id="search-input" placeholder="프로젝트명 검색..." class="form-input pl-10">
-                        </div>
-                        <div>
-                            <select id="status-filter" class="form-select">
-                                <option value="ALL">전체 상태</option>
-                                <option value="진행중">진행중</option>
-                                <option value="중지중">중지중</option>
-                                <option value="완료">완료</option>
-                            </select>
-                        </div>
-                        <div>
-                            <select id="sort-order" class="form-select">
-                                <option value="updatedAt_desc">최신순</option>
-                                <option value="updatedAt_asc">오래된순</option>
-                                <option value="name_asc">이름 오름차순</option>
-                                <option value="name_desc">이름 내림차순</option>
-                            </select>
-                        </div>
+                    <!-- 필터링 및 검색 UI -->
+                </div>
+                <div class="card overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead class="text-left subtle-text">
+                            <tr>
+                                <th class="p-4 font-semibold">프로젝트명</th>
+                                <th class="p-4 font-semibold">PM</th>
+                                <th class="p-4 font-semibold">상태</th>
+                                <th class="p-4 font-semibold">최근 업데이트</th>
+                                <th class="p-4 font-semibold">액션</th>
+                            </tr>
+                        </thead>
+                        <tbody id="project-list-body">
+                            <!-- JS로 렌더링될 영역 -->
+                        </tbody>
+                    </table>
+                     <div id="loading-indicator" class="text-center py-10 subtle-text">
+                        <p>프로젝트 목록을 불러오는 중...</p>
                     </div>
-                </div>
-
-                <div id="project-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <!-- JS로 렌더링될 영역 -->
-                </div>
-                <div id="loading-indicator" class="text-center py-10 subtle-text">
-                    <p>프로젝트 목록을 불러오는 중...</p>
                 </div>
             </main>
         </div>
@@ -100,7 +91,7 @@
     
     <script src="js/theme.js"></script>
     <script src="js/sidebar.js"></script>
-    <script src="js/main.js" type="module"></script>
+    <script src="js/projects.js" type="module"></script>
     <script>
         lucide.createIcons();
     </script>

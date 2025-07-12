@@ -45,23 +45,55 @@ export const apiClient = {
             revisions: revisions.sort((a,b) => a.revisionNumber - b.revisionNumber)
         };
     },
+    createProject: async (projectData) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        const lastProject = data.projects.sort((a,b) => b.id - a.id)[0];
+        const newId = (lastProject ? lastProject.id : 0) + 1;
+        
+        const year = new Date().getFullYear();
+        const lastProjectOfTheYear = data.projects.filter(p=>p.projectId.startsWith(`P${year}`)).length;
+        const newProjectId = `P${year}-${String(lastProjectOfTheYear + 1).padStart(3, '0')}`;
 
-    // --- Client APIs (관계사 CRUD) ---
+        const newProject = { 
+            id: newId,
+            projectId: newProjectId,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            status: '진행중', // 기본 상태
+            ...projectData 
+        };
+        data.projects.push(newProject);
+        persistData(data);
+        return newProject;
+    },
+    updateProject: async (id, updateData) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        const projectIndex = data.projects.findIndex(p => p.id === parseInt(id));
+        if (projectIndex === -1) throw new Error("Project not found");
+        
+        data.projects[projectIndex] = { ...data.projects[projectIndex], ...updateData, updatedAt: new Date().toISOString() };
+        persistData(data);
+        return data.projects[projectIndex];
+    },
+    deleteProject: async (id) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        data.projects = data.projects.filter(p => p.id !== parseInt(id));
+        persistData(data);
+        return { success: true };
+    },
+
+    // --- Client APIs ---
     getClients: async () => { 
         await simulateNetworkDelay(); 
         return (await getMockData()).clients; 
     },
-    getClientById: async (id) => {
-        await simulateNetworkDelay();
-        return findById((await getMockData()).clients, id);
-    },
     createClient: async (clientData) => {
         await simulateNetworkDelay(400);
         const data = await getMockData();
-        const newClient = { 
-            id: Date.now(), // 고유 ID 생성
-            ...clientData 
-        };
+        const newClient = { id: Date.now(), ...clientData };
         data.clients.push(newClient);
         persistData(data);
         return newClient;
@@ -71,7 +103,6 @@ export const apiClient = {
         const data = await getMockData();
         const clientIndex = data.clients.findIndex(c => c.id === parseInt(id));
         if (clientIndex === -1) throw new Error("Client not found");
-        
         data.clients[clientIndex] = { ...data.clients[clientIndex], ...updateData };
         persistData(data);
         return data.clients[clientIndex];
@@ -84,23 +115,15 @@ export const apiClient = {
         return { success: true };
     },
 
-    // --- Quotation APIs (견적 CRUD) ---
+    // --- Quotation APIs ---
     getQuotations: async () => {
         await simulateNetworkDelay();
         return (await getMockData()).quotations;
     },
-    getQuotationById: async (id) => {
-        await simulateNetworkDelay();
-        return findById((await getMockData()).quotations, id);
-    },
     createQuotation: async (quotationData) => {
         await simulateNetworkDelay(400);
         const data = await getMockData();
-        const newQuotation = { 
-            id: Date.now(), // 고유 ID 생성
-            quotationId: `Q${Date.now()}`, // 임시 고유 ID
-            ...quotationData 
-        };
+        const newQuotation = { id: Date.now(), quotationId: `Q${Date.now()}`, ...quotationData };
         data.quotations.push(newQuotation);
         persistData(data);
         return newQuotation;
@@ -110,7 +133,6 @@ export const apiClient = {
         const data = await getMockData();
         const quotationIndex = data.quotations.findIndex(q => q.id === parseInt(id));
         if (quotationIndex === -1) throw new Error("Quotation not found");
-        
         data.quotations[quotationIndex] = { ...data.quotations[quotationIndex], ...updateData };
         persistData(data);
         return data.quotations[quotationIndex];
