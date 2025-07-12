@@ -1,3 +1,4 @@
+// --- 가상 데이터베이스 및 기본 설정 ---
 const DATA_FILE = 'data/mock_data.json';
 let cachedData = null;
 
@@ -9,17 +10,8 @@ const getMockData = async () => {
         cachedData = await response.json();
         return JSON.parse(JSON.stringify(cachedData));
     } catch (e) {
-        console.error("Could not load or parse mock data:", e);
-        // 계획서에 명시된 모든 데이터 모델에 대한 기본 빈 배열을 반환하도록 수정
-        return { 
-            projects: [], 
-            contracts: [], 
-            contractRevisions: [],
-            clients: [],
-            invoices: [], 
-            quotations: [], 
-            project_participants: [] 
-        };
+        console.error("Could not load mock data:", e);
+        return { projects: [], contracts: [], contractRevisions: [], clients: [] };
     }
 };
 
@@ -28,15 +20,15 @@ const persistData = (data) => {
 };
 
 const simulateNetworkDelay = (delay = 150) => new Promise(res => setTimeout(res, delay));
-
 const findById = (collection, id) => collection.find(item => item.id === parseInt(id));
 
+
+// --- API 클라이언트 객체 ---
 export const apiClient = {
-    // --- Project ---
+    // --- Project APIs ---
     getProjects: async () => {
         await simulateNetworkDelay();
-        const data = await getMockData();
-        return data.projects;
+        return (await getMockData()).projects;
     },
     getProjectById: async (projectId) => {
         await simulateNetworkDelay();
@@ -44,20 +36,51 @@ export const apiClient = {
         const project = data.projects.find(p => p.projectId === projectId);
         if (!project) throw new Error("Project not found");
         
-        // 프로젝트에 연결된 계약과 변경 이력을 함께 반환
         const contract = data.contracts.find(c => c.projectId === project.id);
         const revisions = contract ? data.contractRevisions.filter(r => r.contractId === contract.id) : [];
 
         return {
             ...project,
             contract: contract || null,
-            revisions: revisions.sort((a,b) => a.revisionNumber - b.revisionNumber) // 차수별로 정렬
+            revisions: revisions.sort((a,b) => a.revisionNumber - b.revisionNumber)
         };
     },
-    // --- Client ---
+
+    // --- Client APIs (관계사 CRUD) ---
     getClients: async () => { 
         await simulateNetworkDelay(); 
         return (await getMockData()).clients; 
     },
-    // ... 다른 API 함수들은 추후 단계에서 구현 ...
+    getClientById: async (id) => {
+        await simulateNetworkDelay();
+        return findById((await getMockData()).clients, id);
+    },
+    createClient: async (clientData) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        const newClient = { 
+            id: Date.now(), // 고유 ID 생성
+            ...clientData 
+        };
+        data.clients.push(newClient);
+        persistData(data);
+        return newClient;
+    },
+    updateClient: async (id, updateData) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        const clientIndex = data.clients.findIndex(c => c.id === parseInt(id));
+        if (clientIndex === -1) throw new Error("Client not found");
+        
+        data.clients[clientIndex] = { ...data.clients[clientIndex], ...updateData };
+        persistData(data);
+        return data.clients[clientIndex];
+    },
+    deleteClient: async (id) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        data.clients = data.clients.filter(c => c.id !== parseInt(id));
+        persistData(data);
+        return { success: true };
+    },
 };

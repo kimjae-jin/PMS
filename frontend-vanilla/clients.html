@@ -8,37 +8,48 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        .sidebar { transition: width 0.3s ease-in-out; }
-        .sidebar-link-text, .sidebar-logo-text { transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; }
-        .sidebar.collapsed .sidebar-link-text, .sidebar.collapsed .sidebar-logo-text { opacity: 0; visibility: hidden; white-space: nowrap; }
+        .sidebar { transition: width 0.2s ease-in-out; }
+        .sidebar .sidebar-link-text, .sidebar .sidebar-logo-text {
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            pointer-events: none;
+        }
+        .sidebar:not(.collapsed) .sidebar-link-text,
+        .sidebar:not(.collapsed) .sidebar-logo-text {
+            opacity: 1;
+            pointer-events: auto;
+        }
     </style>
 </head>
-<body>
+<body class="bg-gray-900 text-gray-100">
 
     <div class="flex h-screen font-sans">
         <!-- Sidebar -->
-        <aside id="sidebar" class="w-64 flex-shrink-0 flex flex-col border-r sidebar">
-            <div class="h-16 flex items-center justify-center px-4 border-b border-inherit flex-shrink-0">
-                <i data-lucide="box" class="text-blue-500 h-8 w-8"></i>
-                <h1 class="text-2xl font-bold ml-3 sidebar-logo-text">ERP</h1>
-            </div>
-            <nav class="flex-grow p-3 space-y-1">
-                <a href="index.html" class="sidebar-link"><i data-lucide="folder-kanban" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">프로젝트</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="users" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">기술인</span></a>
-                <a href="clients.html" class="sidebar-link active"><i data-lucide="building-2" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">관계사</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="file-archive" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">문서/서식</span></a>
-                <a href="quotations.html" class="sidebar-link"><i data-lucide="calculator" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">견적관리</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="receipt" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">청구/재무</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="award" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">사업수행능력평가</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="gavel" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">입찰면허</span></a>
-                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="clipboard-check" class="w-6 h-6 mr-4 flex-shrink-0" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">주간회의</span></a>
+        <aside id="sidebar" class="w-20 flex-shrink-0 flex flex-col border-r sidebar collapsed">
+            <a href="index.html" id="logo-container" class="h-16 flex items-center justify-start px-[1.375rem] border-b border-inherit flex-shrink-0">
+                <i data-lucide="box" class="text-blue-500 h-8 w-8 flex-shrink-0"></i>
+                <h1 class="text-2xl font-bold ml-3 sidebar-logo-text whitespace-nowrap">ERP</h1>
+            </a>
+            <nav class="flex-grow p-3 space-y-2">
+                <a href="index.html" class="sidebar-link"><i data-lucide="layout-dashboard" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">종합 상황판</span></a>
+                <a href="projects.html" class="sidebar-link"><i data-lucide="folder-kanban" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">프로젝트</span></a>
+                <a href="clients.html" class="sidebar-link"><i data-lucide="building-2" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">관계사</span></a>
+                <a href="quotations.html" class="sidebar-link"><i data-lucide="calculator" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">견적관리</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="users" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">기술인</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="file-archive" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">문서/서식</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="receipt" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">청구/재무</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="award" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">사업수행능력평가</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="gavel" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">입찰면허</span></a>
+                <a href="#" class="sidebar-link opacity-50 cursor-not-allowed"><i data-lucide="clipboard-check" class="icon" stroke-width="2.5"></i><span class="sidebar-link-text font-bold">주간회의</span></a>
             </nav>
         </aside>
 
         <!-- Main content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <header class="h-16 flex-shrink-0 flex items-center justify-between px-6 main-header">
-                 <h2 class="text-xl font-semibold">관계사 목록</h2>
+                 <div class="flex items-center">
+                    <h2 class="text-xl font-semibold">관계사 목록</h2>
+                 </div>
                  <div class="flex items-center space-x-4">
                     <button class="btn-primary inline-flex items-center justify-center space-x-2">
                         <i data-lucide="plus" class="w-5 h-5"></i>
@@ -74,14 +85,10 @@
     </div>
     
     <script src="js/theme.js"></script>
+    <script src="js/sidebar.js"></script>
     <script src="js/clients.js" type="module"></script>
     <script>
         lucide.createIcons();
-
-        const sidebar = document.getElementById('sidebar');
-        sidebar.addEventListener('mouseenter', () => sidebar.style.width = '16rem');
-        sidebar.addEventListener('mouseleave', () => sidebar.style.width = '5.5rem');
-        sidebar.style.width = '5.5rem';
     </script>
 </body>
 </html>
