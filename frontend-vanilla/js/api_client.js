@@ -11,7 +11,7 @@ const getMockData = async () => {
         return JSON.parse(JSON.stringify(cachedData));
     } catch (e) {
         console.error("Could not load mock data:", e);
-        return { projects: [], contracts: [], contractRevisions: [], clients: [] };
+        return { projects: [], contracts: [], contractRevisions: [], clients: [], quotations: [] };
     }
 };
 
@@ -80,6 +80,45 @@ export const apiClient = {
         await simulateNetworkDelay(400);
         const data = await getMockData();
         data.clients = data.clients.filter(c => c.id !== parseInt(id));
+        persistData(data);
+        return { success: true };
+    },
+
+    // --- Quotation APIs (견적 CRUD) ---
+    getQuotations: async () => {
+        await simulateNetworkDelay();
+        return (await getMockData()).quotations;
+    },
+    getQuotationById: async (id) => {
+        await simulateNetworkDelay();
+        return findById((await getMockData()).quotations, id);
+    },
+    createQuotation: async (quotationData) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        const newQuotation = { 
+            id: Date.now(), // 고유 ID 생성
+            quotationId: `Q${Date.now()}`, // 임시 고유 ID
+            ...quotationData 
+        };
+        data.quotations.push(newQuotation);
+        persistData(data);
+        return newQuotation;
+    },
+    updateQuotation: async (id, updateData) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        const quotationIndex = data.quotations.findIndex(q => q.id === parseInt(id));
+        if (quotationIndex === -1) throw new Error("Quotation not found");
+        
+        data.quotations[quotationIndex] = { ...data.quotations[quotationIndex], ...updateData };
+        persistData(data);
+        return data.quotations[quotationIndex];
+    },
+    deleteQuotation: async (id) => {
+        await simulateNetworkDelay(400);
+        const data = await getMockData();
+        data.quotations = data.quotations.filter(q => q.id !== parseInt(id));
         persistData(data);
         return { success: true };
     },
