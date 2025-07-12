@@ -1,95 +1,130 @@
 {
-  "clients": [
+  "projects": [
     {
       "id": 1,
-      "clientName": "서울시청",
-      "businessRegistrationNumber": "101-83-04818",
-      "corporateRegistrationNumber": "110111-0005151",
-      "address": "서울특별시 중구 세종대로 110",
-      "contactNumber": "02-120",
-      "accountingContactName": "김회계", "accountingContactEmail": "account@seoul.go.kr", "accountingContactPhone": "02-2133-1234",
-      "businessContactName": "박정책", "businessContactEmail": "policy@seoul.go.kr", "businessContactPhone": "02-2133-5678",
-      "remarks": "수도권 공공 프로젝트 주요 발주처",
-      "createdAt": "2022-03-15T09:00:00Z"
+      "projectId": "P2025-001",
+      "projectName": "스마트시티 통합 플랫폼 구축 설계용역",
+      "projectCategory": "공공",
+      "pmName": "김철수",
+      "projectLocation": "서울특별시",
+      "summary": "서울시 스마트시티 구현을 위한 통합 플랫폼 기본 및 실시설계",
+      "facilityType": "정보통신시설",
+      "status": "진행중",
+      "createdAt": "2025-01-10T10:00:00Z",
+      "updatedAt": "2025-07-10T14:30:00Z"
     },
     {
       "id": 2,
-      "clientName": "AB반도체",
-      "businessRegistrationNumber": "214-81-08359",
-      "corporateRegistrationNumber": "134411-0001859",
-      "address": "경기도 이천시 부발읍 경충대로 2091",
-      "contactNumber": "031-639-1114",
-      "accountingContactName": "최정산", "accountingContactEmail": "finance@ab.co.kr", "accountingContactPhone": "031-639-2222",
-      "businessContactName": "이개발", "businessContactEmail": "dev@ab.co.kr", "businessContactPhone": "031-639-3333",
-      "remarks": "민간 대기업, 하이테크 공장 전문",
-      "createdAt": "2023-08-01T14:20:00Z"
+      "projectId": "P2024-015",
+      "projectName": "동해안 교량 정밀안전진단",
+      "projectCategory": "공공(하)",
+      "pmName": "이영희",
+      "projectLocation": "강원도 동해시",
+      "summary": "국도 7호선 동해안 구간 교량 3개소 정밀안전진단",
+      "facilityType": "교량 및 터널",
+      "status": "중지중",
+      "createdAt": "2024-04-15T16:00:00Z",
+      "updatedAt": "2025-05-20T11:45:00Z"
     },
     {
       "id": 3,
-      "clientName": "국토교통부",
-      "businessRegistrationNumber": "110-82-01132",
-      "corporateRegistrationNumber": "134221-0000033",
-      "address": "세종특별자치시 도움6로 11",
-      "contactNumber": "1599-0001",
-      "accountingContactName": "나예산", "accountingContactEmail": "budget@molit.go.kr", "accountingContactPhone": "044-201-1111",
-      "businessContactName": "오도로", "businessContactEmail": "road@molit.go.kr", "businessContactPhone": "044-201-2222",
-      "remarks": "국가 SOC 사업 주무부처",
-      "createdAt": "2021-11-20T10:00:00Z"
-    },
-    {
-      "id": 4,
-      "clientName": "경기도청",
-      "businessRegistrationNumber": "135-83-00225",
-      "corporateRegistrationNumber": "135521-0000020",
-      "address": "경기도 수원시 영통구 도청로 30",
-      "contactNumber": "031-120",
-      "accountingContactName": "주세금", "accountingContactEmail": "tax@gg.go.kr", "accountingContactPhone": "031-8008-1234",
-      "businessContactName": "한철도", "businessContactEmail": "rail@gg.go.kr", "businessContactPhone": "031-8008-5678",
-      "remarks": "수도권 광역 교통망 핵심 발주처",
-      "createdAt": "2022-01-10T11:00:00Z"
-    }
-  ],
-  "projects": [
-    {
-      "id": 1, "projectId": "P2025-001", "name": "스마트시티 통합 플랫폼 구축", "clientId": 1,
-      "startDate": "2025-01-15", "endDate": "2026-01-14", "status": "IN_PROGRESS",
-      "createdAt": "2025-01-10T10:00:00Z", "updatedAt": "2025-07-10T14:30:00Z"
-    },
-    {
-      "id": 2, "projectId": "P2025-002", "name": "차세대 반도체 공장 안전 진단", "clientId": 2,
-      "startDate": "2025-03-01", "endDate": "2025-08-31", "status": "IN_PROGRESS",
-      "createdAt": "2025-02-20T11:00:00Z", "updatedAt": "2025-06-25T09:00:00Z"
-    },
-    {
-      "id": 3, "projectId": "P2024-015", "name": "동해안 교량 정밀 감리", "clientId": 3,
-      "startDate": "2024-05-10", "endDate": "2025-11-30", "status": "ON_HOLD",
-      "createdAt": "2024-04-15T16:00:00Z", "updatedAt": "2025-05-20T11:45:00Z"
-    },
-    {
-      "id": 4, "projectId": "P2023-201", "name": "수도권 광역 급행철도 설계", "clientId": 4,
-      "startDate": "2023-02-01", "endDate": "2024-12-31", "status": "COMPLETED",
-      "createdAt": "2023-01-15T09:00:00Z", "updatedAt": "2025-01-05T18:00:00Z"
+      "projectId": "P2023-201",
+      "projectName": "수도권 광역 급행철도 A노선 건설사업관리",
+      "projectCategory": "PQ",
+      "pmName": "박서준",
+      "projectLocation": "경기도",
+      "summary": "수도권 광역 급행철도 A노선(파주~동탄) 건설사업관리용역",
+      "facilityType": "철도",
+      "status": "완료",
+      "createdAt": "2023-01-15T09:00:00Z",
+      "updatedAt": "2025-01-05T18:00:00Z"
     }
   ],
   "contracts": [
-    {"id": 101, "projectId": 1, "contractId": "NARA-12345-01", "isActive": true, "contractDate": "2025-01-12"},
-    {"id": 102, "projectId": 2, "contractId": "AB-2025-SEC-01", "isActive": true, "contractDate": "2025-02-25"},
-    {"id": 103, "projectId": 3, "contractId": "MOLIT-BRIDGE-003", "isActive": true, "contractDate": "2024-05-01"},
-    {"id": 104, "projectId": 4, "contractId": "GTX-A-DESIGN-01", "isActive": true, "contractDate": "2023-01-28"}
+    {
+      "id": 101,
+      "projectId": 1,
+      "contractId": "20250112-00",
+      "contractType": "최초",
+      "contractDate": "2025-01-12",
+      "startDate": "2025-01-15",
+      "endDate": "2026-01-14",
+      "totalAmount": 5000000000,
+      "supplyAmount": 1363636364,
+      "vatAmount": 136363636,
+      "totalEquityAmount": 1500000000,
+      "equityRatio": 30.00,
+      "contractFileUrl": "/files/contracts/20250112-00.pdf",
+      "remarks": "선금 30% 지급 조건"
+    },
+    {
+        "id": 102,
+        "projectId": 2,
+        "contractId": "20240501-00",
+        "contractType": "최초",
+        "contractDate": "2024-05-01",
+        "startDate": "2024-05-10",
+        "endDate": "2025-05-09",
+        "totalAmount": 800000000,
+        "supplyAmount": 181818182,
+        "vatAmount": 18181818,
+        "totalEquityAmount": 200000000,
+        "equityRatio": 25.00,
+        "contractFileUrl": null,
+        "remarks": ""
+      },
+      {
+        "id": 103,
+        "projectId": 3,
+        "contractId": "20230128-00",
+        "contractType": "최초",
+        "contractDate": "2023-01-28",
+        "startDate": "2023-02-01",
+        "endDate": "2024-12-31",
+        "totalAmount": 12000000000,
+        "supplyAmount": 2727272727,
+        "vatAmount": 272727273,
+        "totalEquityAmount": 3000000000,
+        "equityRatio": 25.00,
+        "contractFileUrl": "/files/contracts/20230128-00.pdf",
+        "remarks": ""
+      }
   ],
-  "invoices": [
-    {"id": 301, "contractId": 101, "invoiceType": "선금 청구", "invoiceContent": "1차 선금", "invoiceAmount": 1500000000, "invoiceDate": "2025-01-20", "paymentDate": "2025-02-15", "paymentAmount": 1500000000},
-    {"id": 302, "contractId": 101, "invoiceType": "기성 청구", "invoiceContent": "1차 기성 (30% 공정)", "invoiceAmount": 1000000000, "invoiceDate": "2025-07-01", "paymentDate": null, "paymentAmount": null},
-    {"id": 303, "contractId": 102, "invoiceType": "기성 청구", "invoiceContent": "중간 안전점검 보고서 제출", "invoiceAmount": 400000000, "invoiceDate": "2025-06-01", "paymentDate": "2025-06-28", "paymentAmount": 400000000}
+  "contractRevisions": [
+    {
+      "revisionId": 201,
+      "contractId": 101,
+      "revisionNumber": 1,
+      "revisionDate": "2025-06-20",
+      "revisedStartDate": "2025-01-15",
+      "revisedEndDate": "2026-03-14",
+      "finalEndDate": "2026-03-14",
+      "revisedTotalAmount": 5500000000,
+      "revisedTotalEquityAmount": 1650000000,
+      "revisedEquityRatio": 30.00,
+      "changeReason": "과업 범위 증가 (빅데이터 분석 기능 추가)에 따른 계약금액 및 기간 변경",
+      "revisionProofFileUrl": "/files/revisions/201_proof.pdf",
+      "revisionContractFileUrl": "/files/revisions/201_contract.pdf"
+    },
+    {
+        "revisionId": 202,
+        "contractId": 102,
+        "revisionNumber": 1,
+        "revisionDate": "2024-10-01",
+        "revisedStartDate": "2024-05-10",
+        "revisedEndDate": "2025-05-09",
+        "finalEndDate": "2025-08-09",
+        "revisedTotalAmount": 800000000,
+        "revisedTotalEquityAmount": 200000000,
+        "revisedEquityRatio": 25.00,
+        "changeReason": "발주처 사정으로 인한 과업 일시 중지(3개월) 후 재개. 최종 종료일 연장.",
+        "revisionProofFileUrl": null,
+        "revisionContractFileUrl": null
+      }
   ],
-  "project_participants": [
-    {"id": 401, "projectId": 1, "employeeId": "김철수", "jobField": "소프트웨어", "specialtyField": "정보통신", "position": "부장", "responsibilities": "프로젝트 총괄", "responsibilityLevel": "사업책임기술인"},
-    {"id": 402, "projectId": 1, "employeeId": "정개발", "jobField": "소프트웨어", "specialtyField": "정보통신", "position": "대리", "responsibilities": "백엔드 개발", "responsibilityLevel": "분야책임기술인"},
-    {"id": 403, "projectId": 2, "employeeId": "이영희", "jobField": "안전진단", "specialtyField": "건축구조", "position": "상무", "responsibilities": "안전진단 총괄", "responsibilityLevel": "사업책임기술인"},
-    {"id": 404, "projectId": 3, "employeeId": "박서준", "jobField": "토목", "specialtyField": "교량 및 터널", "position": "이사", "responsibilities": "정밀 감리", "responsibilityLevel": "사업책임기술인"}
-  ],
-  "quotations": [
-    {"id": 501, "quotationNumber": "Q2025-0001", "provisionalContractName": "남부순환도로 소음 저감 시설 설계", "quotationAmount": 250000000, "recipientName": "한국도로공사", "recipientContact": "02-123-4567", "recipientEmail":"contact@ex.co.kr", "createdAt": "2025-06-10T10:00:00Z"},
-    {"id": 502, "quotationNumber": "Q2025-0002", "provisionalContractName": "민간 데이터센터 신축 감리 제안", "quotationAmount": 1200000000, "recipientName": "KDD 데이터센터", "recipientContact": "031-987-6543", "recipientEmail":"infra@kdd.net", "createdAt": "2025-07-02T14:30:00Z"}
+  "clients": [
+    { "id": 1, "clientName": "서울시청" },
+    { "id": 2, "clientName": "국토교통부" },
+    { "id": 3, "clientName": "경기도청" }
   ]
 }
