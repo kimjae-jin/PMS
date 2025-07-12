@@ -25,6 +25,25 @@ const findById = (collection, id) => collection.find(item => item.id === parseIn
 
 // --- API 클라이언트 객체 ---
 export const apiClient = {
+    // --- Dashboard & Summary API ---
+    getDashboardSummary: async () => {
+        await simulateNetworkDelay(200);
+        const data = await getMockData();
+        const inProgressProjects = data.projects.filter(p => p.status === '진행중').length;
+        
+        // 향후 실제 데이터 기반으로 계산될 예정 (현재는 가상 데이터)
+        const expiringDocuments = 2; 
+        const dailyIssues = 3;
+        const pendingInvoices = 1;
+
+        return {
+            inProgressProjects,
+            expiringDocuments,
+            dailyIssues,
+            pendingInvoices
+        };
+    },
+    
     // --- Project APIs ---
     getProjects: async () => {
         await simulateNetworkDelay();
@@ -60,7 +79,7 @@ export const apiClient = {
             projectId: newProjectId,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            status: '진행중', // 기본 상태
+            status: '진행중',
             ...projectData 
         };
         data.projects.push(newProject);

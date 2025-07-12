@@ -8,14 +8,12 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* 사이드바 애니메이션과 텍스트 숨김 처리를 위한 핵심 스타일 */
         .sidebar { transition: width 0.2s ease-in-out; }
         .sidebar .sidebar-link-text, .sidebar .sidebar-logo-text {
             opacity: 0;
             transition: opacity 0.2s ease-in-out;
-            pointer-events: none; /* 숨겨졌을 때 클릭 이벤트 방지 */
+            pointer-events: none;
         }
-        /* 확장된 사이드바에서만 텍스트를 보이게 함 */
         .sidebar:not(.collapsed) .sidebar-link-text,
         .sidebar:not(.collapsed) .sidebar-logo-text {
             opacity: 1;
@@ -63,10 +61,10 @@
             <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- 종합 상황판 위젯 영역 -->
-                    <div class="card p-4"> <h3 class="font-bold mb-2">진행중 프로젝트</h3> <p class="text-3xl font-bold">5</p> </div>
-                    <div class="card p-4"> <h3 class="font-bold mb-2">만료 임박 서류</h3> <p class="text-3xl font-bold">2</p> </div>
-                    <div class="card p-4"> <h3 class="font-bold mb-2">금일 특이사항</h3> <p class="text-3xl font-bold">3</p> </div>
-                    <div class="card p-4"> <h3 class="font-bold mb-2">미처리 청구</h3> <p class="text-3xl font-bold">1</p> </div>
+                    <div class="card p-4"> <h3 class="font-bold mb-2">진행중 프로젝트</h3> <p class="text-3xl font-bold">0</p> </div>
+                    <div class="card p-4"> <h3 class="font-bold mb-2">만료 임박 서류</h3> <p class="text-3xl font-bold">0</p> </div>
+                    <div class="card p-4"> <h3 class="font-bold mb-2">금일 특이사항</h3> <p class="text-3xl font-bold">0</p> </div>
+                    <div class="card p-4"> <h3 class="font-bold mb-2">미처리 청구</h3> <p class="text-3xl font-bold">0</p> </div>
                 </div>
             </main>
         </div>
@@ -74,6 +72,7 @@
     
     <script src="js/theme.js"></script>
     <script src="js/sidebar.js"></script>
+    <script src="js/dashboard.js" type="module"></script>
     <script>
         lucide.createIcons();
     </script>
