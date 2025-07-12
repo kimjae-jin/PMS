@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로젝트 상세 - Flowith.io</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans antialiased">
+    <div id="app" class="min-h-screen flex flex-col">
+        <header class="bg-gray-900/70 backdrop-blur-lg sticky top-0 z-20 border-b border-gray-700/50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center space-x-3">
+                         <a href="index.html" class="flex items-center space-x-3 group">
+                            <i data-lucide="arrow-left" class="text-gray-400 group-hover:text-blue-400 transition-colors"></i>
+                            <span class="text-xl font-bold text-white">Flowith P.M.S</span>
+                         </a>
+                    </div>
+                    <div id="save-status" class="text-sm text-gray-400 flex items-center space-x-2">
+                        <i data-lucide="cloud" class="w-5 h-5"></i>
+                        <span>자동 저장 활성화</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="loading-indicator" class="text-center py-20">
+                <p class="text-gray-400 text-lg">프로젝트 정보를 불러오는 중...</p>
+            </div>
+
+            <div id="project-content" class="hidden">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
+                    <div>
+                        <h2 id="project-name-header" class="text-3xl font-bold text-white"></h2>
+                        <p id="project-id-header" class="text-md text-gray-400"></p>
+                    </div>
+                    <div class="flex items-center space-x-2 flex-wrap gap-2">
+                        <button id="print-contract-btn" class="btn-secondary">계약서 출력</button>
+                        <button id="print-start-cert-btn" class="btn-secondary">착수계 출력</button>
+                        <button id="print-complete-cert-btn" class="btn-secondary">완료계 출력</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <i data-lucide="file-text" class="w-5 h-5 mr-2"></i>
+                                <h3>프로젝트 기본 정보</h3>
+                            </div>
+                            <form id="project-form" class="card-body grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="md:col-span-2">
+                                    <label for="name">프로젝트명</label>
+                                    <input type="text" id="name" name="name" class="form-input" required>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label for="clientId">거래처</label>
+                                    <select id="clientId" name="clientId" class="form-select"></select>
+                                </div>
+                                <div>
+                                    <label for="status">과업 상태</label>
+                                    <select id="status" name="status" class="form-select">
+                                        <option value="IN_PROGRESS">진행중</option>
+                                        <option value="ON_HOLD">중지중</option>
+                                        <option value="COMPLETED">완료</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <i data-lucide="file-signature" class="w-5 h-5 mr-2"></i>
+                                <h3>현재 계약 정보</h3>
+                            </div>
+                            <form id="contract-form" class="card-body grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="startDate">착수일</label>
+                                    <input type="date" id="startDate" name="startDate" class="form-input">
+                                </div>
+                                <div>
+                                    <label for="endDate">종료 예정일</label>
+                                    <input type="date" id="endDate" name="endDate" class="form-input">
+                                </div>
+                            </form>
+                        </div>
+                         <div class="card">
+                            <div class="card-header">
+                                <i data-lucide="receipt" class="w-5 h-5 mr-2"></i>
+                                <h3>상세 청구 관리</h3>
+                                <button id="add-invoice-btn" class="btn-secondary btn-sm ml-auto">청구 추가</button>
+                            </div>
+                            <div id="invoice-list" class="card-body space-y-4"></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div class="card">
+                            <div class="card-header">
+                                 <i data-lucide="users" class="w-5 h-5 mr-2"></i>
+                                <h3>프로젝트 참여자</h3>
+                                <button id="add-participant-btn" class="btn-secondary btn-sm ml-auto">참여자 추가</button>
+                            </div>
+                            <div id="participant-list" class="card-body space-y-4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden"></div>
+    <div id="modal-container" class="fixed inset-0 flex items-center justify-center z-50 hidden p-4">
+        <div class="card w-full max-w-2xl">
+            <div class="card-header">
+                <h3 id="modal-title" class="text-lg"></h3>
+                <button id="modal-close" class="ml-auto p-1 rounded-full hover:bg-gray-700 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="card-body max-h-[70vh] overflow-y-auto">
+            </div>
+        </div>
+    </div>
+
+    <script src="js/project_detail.js" type="module"></script>
+</body>
+</html>

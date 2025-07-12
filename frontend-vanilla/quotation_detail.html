@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>견적 정보 - Flowith.io</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-900 text-gray-200 font-sans antialiased">
+    <div id="app" class="min-h-screen flex flex-col">
+        <header class="bg-gray-900/70 backdrop-blur-lg sticky top-0 z-20 border-b border-gray-700/50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center space-x-3">
+                         <a href="quotations.html" class="flex items-center space-x-3 group">
+                            <i data-lucide="arrow-left" class="text-gray-400 group-hover:text-blue-400 transition-colors"></i>
+                            <span class="text-xl font-bold text-white">견적 관리</span>
+                         </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="loading-indicator" class="text-center py-20">
+                <p class="text-gray-400 text-lg">정보를 불러오는 중...</p>
+            </div>
+
+            <form id="quotation-form" class="hidden">
+                <div class="mb-6 flex justify-between items-center">
+                    <div>
+                        <h2 id="page-title" class="text-3xl font-bold text-white">신규 견적 작성</h2>
+                        <p id="quotation-number-display" class="text-md text-gray-400"></p>
+                    </div>
+                    <button type="button" id="print-pdf-btn" class="btn-secondary hidden">견적서 PDF 출력</button>
+                </div>
+                
+                <div class="card">
+                    <div class="card-body grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        <div class="md:col-span-2">
+                            <label for="provisionalContractName">가계약명</label>
+                            <input type="text" id="provisionalContractName" name="provisionalContractName" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="quotationAmount">총 견적 금액</label>
+                             <input type="text" id="quotationAmount" name="quotationAmount" class="form-input text-right" required>
+                        </div>
+                        <div>
+                             <label for="createdAt">작성일</label>
+                            <input type="date" id="createdAt" name="createdAt" class="form-input" disabled>
+                        </div>
+
+                        <div class="md:col-span-2 mt-4 pt-4 border-t border-gray-700">
+                            <h3 class="text-lg font-semibold text-white">수신처 정보</h3>
+                        </div>
+                        <div>
+                            <label for="recipientName">수신처명</label>
+                            <input type="text" id="recipientName" name="recipientName" class="form-input" required>
+                        </div>
+                        <div>
+                            <label for="recipientContact">연락처</label>
+                            <input type="tel" id="recipientContact" name="recipientContact" class="form-input">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="recipientEmail">이메일</label>
+                            <input type="email" id="recipientEmail" name="recipientEmail" class="form-input">
+                        </div>
+
+                        <div class="md:col-span-2">
+                            <label for="remarks">비고</label>
+                            <textarea id="remarks" name="remarks" rows="4" class="form-textarea"></textarea>
+                        </div>
+                    </div>
+                     <div class="bg-gray-800/50 px-6 py-4 flex justify-end items-center gap-4">
+                        <button type="button" id="delete-btn" class="text-red-500 hover:text-red-400 font-medium hidden">삭제</button>
+                        <button type="submit" id="save-btn" class="btn-primary">저장</button>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+    <script src="js/quotations.js" type="module"></script>
+</body>
+</html>
