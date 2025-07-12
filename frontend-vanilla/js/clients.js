@@ -1,153 +1,119 @@
 import { apiClient } from './api_client.js';
-import { formatDate } from './utils.js';
 
+// --- Modal Helper Functions ---
+// 모달을 제어하는 전역 헬퍼 객체를 정의합니다.
+const Modal = {
+    container: document.getElementById('modal-container'),
+    card: document.getElementById('modal-card'),
+    title: document.getElementById('modal-title'),
+    body: document.getElementById('modal-body'),
+    footer: document.getElementById('modal-footer'),
+    closeBtn: document.getElementById('modal-close'),
+
+    open(titleContent, bodyContent) {
+        this.title.innerHTML = titleContent;
+        this.body.innerHTML = bodyContent;
+        this.container.classList.remove('hidden');
+        // 모달이 열릴 때 바깥 영역 클릭 시 닫히도록 이벤트 리스너 추가
+        this.container.addEventListener('click', this.handleBackdropClick);
+        this.closeBtn.addEventListener('click', this.close);
+    },
+
+    close() {
+        Modal.container.classList.add('hidden');
+        Modal.title.innerHTML = '';
+        Modal.body.innerHTML = '';
+        // 닫힐 때 이벤트 리스너 제거
+        Modal.container.removeEventListener('click', Modal.handleBackdropClick);
+        Modal.closeBtn.removeEventListener('click', Modal.close);
+    },
+    
+    // 모달 카드 바깥(배경)을 클릭했을 때만 닫히도록 하는 핸들러
+    handleBackdropClick(event) {
+        if (event.target === Modal.container) {
+            Modal.close();
+        }
+    }
+};
+
+
+// --- Page Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons();
-
-    const path = window.location.pathname;
-
-    if (path.includes('clients.html')) {
+    // 페이지 경로와 상관없이 clients.html 이면 목록 페이지 로직을 실행합니다.
+    if (document.querySelector('#client-list-body')) {
         initListPage();
-    } else if (path.includes('client_detail.html')) {
-        initDetailPage();
     }
 });
 
+
 function initListPage() {
-    const clientListContainer = document.getElementById('client-list');
+    const clientListBody = document.getElementById('client-list-body');
     const loadingIndicator = document.getElementById('loading-indicator');
-    const searchInput = document.getElementById('search-input');
-    let allClients = [];
+    let clientsData = []; // API로부터 받은 데이터를 저장할 배열
+
+    // 상세 정보 모달을 띄우는 함수
+    const showClientDetails = (clientId) => {
+        const client = clientsData.find(c => c.id === clientId);
+        if (!client) return;
+
+        const title = `<i data-lucide="building-2" class="w-5 h-5 mr-2"></i> ${client.clientName}`;
+        const body = `
+            <div class="space-y-4">
+                <div>
+                    <label class="text-sm subtle-text">상호명</label>
+                    <p>${client.clientName}</p>
+                </div>
+                <div>
+                    <label class="text-sm subtle-text">사업자번호</label>
+                    <p>${client.businessRegistrationNumber || '-'}</p>
+                </div>
+            </div>
+        `;
+        Modal.open(title, body);
+        lucide.createIcons(); // 모달 내부에 새로 생긴 아이콘을 렌더링
+    };
+
 
     const renderClients = (clients) => {
-        clientListContainer.innerHTML = '';
-        if (clients.length === 0) {
-            clientListContainer.innerHTML = `<tr><td colspan="6" class="text-center text-gray-400 py-10">거래처가 없습니다.</td></tr>`;
+        clientListBody.innerHTML = ''; 
+        if (!clients || clients.length === 0) {
+            clientListBody.innerHTML = `<tr><td colspan="3" class="text-center py-10 subtle-text">등록된 관계사가 없습니다.</td></tr>`;
             return;
         }
 
         clients.forEach(client => {
-            const row = `
-                <tr class="border-b border-gray-700 hover:bg-gray-800/50">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">${client.clientName}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${client.businessRegistrationNumber || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${client.businessContactName || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${client.contactNumber || '-'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${formatDate(client.createdAt)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="client_detail.html?id=${client.id}" class="text-blue-400 hover:text-blue-300">상세보기</a>
-                    </td>
-                </tr>
+            const row = document.createElement('tr');
+            row.className = 'border-t border-gray-200 dark:border-gray-700';
+            row.innerHTML = `
+                <td class="p-4">${client.clientName}</td>
+                <td class="p-4">${client.businessRegistrationNumber || '-'}</td>
+                <td class="p-4">
+                    <button data-id="${client.id}" class="details-btn text-blue-500 hover:underline text-xs font-semibold">상세보기</button>
+                </td>
             `;
-            clientListContainer.insertAdjacentHTML('beforeend', row);
+            clientListBody.appendChild(row);
         });
-    };
-
-    const filterClients = () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        if (!searchTerm) {
-            renderClients(allClients);
-            return;
-        }
-        const filtered = allClients.filter(c => 
-            c.clientName.toLowerCase().includes(searchTerm) ||
-            (c.businessContactName && c.businessContactName.toLowerCase().includes(searchTerm)) ||
-            (c.contactNumber && c.contactNumber.includes(searchTerm))
-        );
-        renderClients(filtered);
+        
+        // '상세보기' 버튼에 이벤트 리스너 추가
+        document.querySelectorAll('.details-btn').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const clientId = parseInt(event.currentTarget.dataset.id, 10);
+                showClientDetails(clientId);
+            });
+        });
     };
 
     const loadClients = async () => {
         try {
-            allClients = await apiClient.getClients();
-            renderClients(allClients);
+            clientsData = await apiClient.getClients(); // 데이터를 전역 변수에 저장
+            renderClients(clientsData);
         } catch (error) {
             console.error('Failed to load clients:', error);
-            clientListContainer.innerHTML = `<tr><td colspan="6" class="text-center text-red-400 py-10">거래처를 불러오는데 실패했습니다.</td></tr>`;
+            clientListBody.innerHTML = `<tr><td colspan="3" class="text-center py-10 text-red-500">데이터를 불러오는데 실패했습니다.</td></tr>`;
         } finally {
             loadingIndicator.style.display = 'none';
         }
     };
 
-    searchInput.addEventListener('input', filterClients);
     loadClients();
-}
-
-function initDetailPage() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const clientId = urlParams.get('id');
-    const isNew = !clientId;
-
-    const loadingIndicator = document.getElementById('loading-indicator');
-    const clientForm = document.getElementById('client-form');
-    const pageTitle = document.getElementById('page-title');
-    const deleteBtn = document.getElementById('delete-btn');
-    
-    const populateForm = (client) => {
-        for (const key in client) {
-            if (clientForm.elements[key]) {
-                clientForm.elements[key].value = client[key] || '';
-            }
-        }
-    };
-
-    const loadClient = async () => {
-        if (isNew) {
-            pageTitle.textContent = '신규 거래처 등록';
-            loadingIndicator.style.display = 'none';
-            clientForm.classList.remove('hidden');
-        } else {
-            try {
-                const client = await apiClient.getClientById(clientId);
-                if (client) {
-                    populateForm(client);
-                    pageTitle.textContent = `거래처 정보 수정: ${client.clientName}`;
-                    deleteBtn.classList.remove('hidden');
-                } else {
-                    throw new Error('Client not found');
-                }
-            } catch (error) {
-                console.error('Failed to load client:', error);
-                clientForm.innerHTML = `<p class="text-red-400 text-center">거래처 정보를 불러오는데 실패했습니다.</p>`;
-            } finally {
-                loadingIndicator.style.display = 'none';
-                clientForm.classList.remove('hidden');
-            }
-        }
-    };
-
-    clientForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(clientForm);
-        const data = Object.fromEntries(formData.entries());
-        
-        try {
-            if (isNew) {
-                await apiClient.createClient(data);
-                alert('거래처가 성공적으로 등록되었습니다.');
-            } else {
-                await apiClient.updateClient(clientId, data);
-                alert('거래처 정보가 성공적으로 수정되었습니다.');
-            }
-            window.location.href = 'clients.html';
-        } catch(error) {
-            console.error('Save failed:', error);
-            alert('저장에 실패했습니다.');
-        }
-    });
-    
-    deleteBtn.addEventListener('click', async () => {
-        if(confirm('정말로 이 거래처를 삭제하시겠습니까? 연결된 프로젝트가 있을 경우 문제가 발생할 수 있습니다.')) {
-            try {
-                await apiClient.deleteClient(clientId);
-                alert('거래처가 삭제되었습니다.');
-                window.location.href = 'clients.html';
-            } catch(error) {
-                console.error('Delete failed:', error);
-                alert('삭제에 실패했습니다.');
-            }
-        }
-    });
-
-    loadClient();
 }
